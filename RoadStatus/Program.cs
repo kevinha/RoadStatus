@@ -68,9 +68,9 @@ namespace RoadStatus
 
         private static void ConfigureServices(ServiceCollection serviceCollection, Options opts)
         {
-            serviceCollection.AddSingleton<IApiConfig>(new ApiConfig(opts.AppId, opts.AppKey));
+            // api url could be in config if required for separate enviroments
+            serviceCollection.AddSingleton<IApiConfig>(new ApiConfig("https://api.tfl.gov.uk",opts.AppId, opts.AppKey));
             serviceCollection.AddHttpClient<ITflService,TflService>()
-                // todo in ctor?
                 .ConfigurePrimaryHttpMessageHandler(handler =>
                 new HttpClientHandler
                 {

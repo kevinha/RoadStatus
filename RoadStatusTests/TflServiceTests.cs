@@ -8,11 +8,13 @@ namespace RoadStatus.Tests
 {
     public class Tests
     {
+        private static readonly ApiConfig ApiConfig = new ApiConfig("http://example.com", "appId", "appKey");
+        
         [Test]
         public async Task WhenApiReturns404_ThenResultIsInvalidId()
         {
             // Arrange
-            var sut = new TflService(new HttpClient(new Return404NotFoundResponseHandler()), new ApiConfig("", ""));
+            var sut = new TflService(new HttpClient(new Return404NotFoundResponseHandler()), ApiConfig);
             
             // Act
             var result = await sut.GetRoad("invalid id");
@@ -25,7 +27,7 @@ namespace RoadStatus.Tests
         [Test] public async Task WhenApiReturnsMultipleResults_ThenResultIsMultipleResults()
         {
             // Arrange
-            var sut = new TflService(new HttpClient(new Return200WithContentResponseHandler("two-roads.json")), new ApiConfig("", ""));
+            var sut = new TflService(new HttpClient(new Return200WithContentResponseHandler("two-roads.json")), ApiConfig);
             
             // Act
             var result = await sut.GetRoad("invalid id");
@@ -39,7 +41,7 @@ namespace RoadStatus.Tests
         {
             // Arrange
             var sut = new TflService(new HttpClient(new Return200WithContentResponseHandler("one-road.json")),
-                new ApiConfig("", ""));
+                ApiConfig);
             
             // Act
             var result = await sut.GetRoad("valid id");
