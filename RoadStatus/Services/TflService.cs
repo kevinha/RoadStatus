@@ -18,7 +18,7 @@ namespace RoadStatus.Services
             _client = client;
             client.BaseAddress = new Uri("https://api.tfl.gov.uk");
             client.Timeout = new TimeSpan(0, 0, 30);
-            client.DefaultRequestHeaders.Clear();            
+            client.DefaultRequestHeaders.Clear();
             _apiConfig = apiConfig;
         }
         

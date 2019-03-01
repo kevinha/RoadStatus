@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net.Http;
-using System.Net.Security;
 using System.Threading.Tasks;
 using CommandLine;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RoadStatus.DTO;
 using RoadStatus.Services;
+using static System.Console;
 
 namespace RoadStatus
 {
@@ -49,19 +49,19 @@ namespace RoadStatus
         {
             if (result.Successful)
             {
-                Console.WriteLine($"The status of the {roadId} is as follows");
-                Console.WriteLine($"\tRoad Status is {result.Value.StatusSeverity}");
-                Console.WriteLine($"\tRoad Status Description is {result.Value.StatusSeverityDescription}");               
+                WriteLine($"The status of the {roadId} is as follows");
+                WriteLine($"\tRoad Status is {result.Value.StatusSeverity}");
+                WriteLine($"\tRoad Status Description is {result.Value.StatusSeverityDescription}");               
             }
             else
             {
                 if (result.Error == Errors.InvalidId)
                 {
-                    Console.WriteLine($"{roadId} is not a valid road");
+                    WriteLine($"{roadId} is not a valid road");
                 }
                 else
                 {
-                    Console.WriteLine($"Error getting results for {roadId}");                    
+                    WriteLine($"Error getting results for {roadId}");                    
                 }
             }
         }

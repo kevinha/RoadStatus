@@ -26,3 +26,7 @@ To show logs add the verbose option
 To run the tests
 
 `dotnet test .\RoadStatusTests`
+
+## Notes
+
+The TflApiPresentationEntitiesRoadCorridor DTO class was generated from the Swagger document.
