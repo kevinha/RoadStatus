@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+
+        <RootNamespace>RoadStatus.Tests</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentAssertions" Version="5.6.0" />
+        <PackageReference Include="nunit" Version="3.11.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\RoadStatus\RoadStatus.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="one-road.json" />
+      <EmbeddedResource Include="one-road.json" />
+      <None Remove="two-roads.json" />
+      <EmbeddedResource Include="two-roads.json" />
+    </ItemGroup>
+
+</Project>
