@@ -62,7 +62,7 @@ namespace RoadStatus
         {
             if (result.Successful)
             {
-                WriteLine($"The status of the {roadId} is as follows");
+                WriteLine($"The status of the {result.Value.DisplayName} is as follows");
                 WriteLine($"\tRoad Status is {result.Value.StatusSeverity}");
                 WriteLine($"\tRoad Status Description is {result.Value.StatusSeverityDescription}");               
             }
@@ -70,7 +70,7 @@ namespace RoadStatus
             {
                 if (result.Error == Errors.InvalidId)
                 {
-                    WriteLine($"{roadId} is not a valid road");
+                    WriteLine($"{roadId} is not a valid road id");
                 }
                 else
                 {
@@ -81,7 +81,7 @@ namespace RoadStatus
 
         private static void ConfigureServices(ServiceCollection serviceCollection, Options opts)
         {
-            // api url could be in config if required for separate enviroments
+            // api url could be in config or on commandline if required for separate environments
             serviceCollection.AddSingleton<IApiConfig>(new ApiConfig("https://api.tfl.gov.uk",opts.AppId, opts.AppKey));
             serviceCollection.AddHttpClient<ITflService,TflService>()
                 .ConfigurePrimaryHttpMessageHandler(handler =>
