@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using RoadStatus.DTO;
 using RoadStatus.Services;
 using static System.Console;
+using static RoadStatus.AsyncHelper;
 
 namespace RoadStatus
 {
@@ -39,10 +40,22 @@ namespace RoadStatus
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection, opts);            
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            
-            var result = Task.Run(() => serviceProvider.GetService<ITflService>().GetRoad(opts.RoadId)).Result;
-            DisplayResult(opts.RoadId, result);
-            return result.Successful ? 0 : result.Error == Errors.InvalidId ? 2 : 3;
+
+            try
+            {
+                var result = RunSync(() =>
+                {
+                    var tflService = serviceProvider.GetService<ITflService>();
+                    return tflService.GetRoadAsync(opts.RoadId);
+                });
+                DisplayResult(opts.RoadId, result);
+                return result.Successful ? 0 : result.Error == Errors.InvalidId ? 2 : 3;
+            }
+            catch (Exception e)
+            {
+                WriteLine($"Unexpected error: {e}");
+                return 4;
+            }
         }
 
         private static void DisplayResult(string roadId, Result<TflApiPresentationEntitiesRoadCorridor> result)

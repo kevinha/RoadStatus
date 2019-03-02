@@ -17,7 +17,7 @@ namespace RoadStatus.Tests
             var sut = new TflService(new HttpClient(new Return404NotFoundResponseHandler()), ApiConfig);
             
             // Act
-            var result = await sut.GetRoad("invalid id");
+            var result = await sut.GetRoadAsync("invalid id");
             
             // Assert
             result.Successful.Should().BeFalse();
@@ -30,21 +30,22 @@ namespace RoadStatus.Tests
             var sut = new TflService(new HttpClient(new Return200WithContentResponseHandler("two-roads.json")), ApiConfig);
             
             // Act
-            var result = await sut.GetRoad("invalid id");
+            var result = await sut.GetRoadAsync("invalid id");
             
             // Assert
             result.Successful.Should().BeFalse();
             result.Error.Should().Be(Errors.MultipleResults);
         }
 
-        [Test] public async Task WhenApiReturnsOK_ThenDetailsArePopulated()
+        [Test] 
+        public async Task WhenApiReturnsOK_ThenDetailsArePopulated()
         {
             // Arrange
             var sut = new TflService(new HttpClient(new Return200WithContentResponseHandler("one-road.json")),
                 ApiConfig);
             
             // Act
-            var result = await sut.GetRoad("valid id");
+            var result = await sut.GetRoadAsync("valid id");
             
             // Assert
             result.Successful.Should().BeTrue();

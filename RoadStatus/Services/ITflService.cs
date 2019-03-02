@@ -5,6 +5,6 @@ namespace RoadStatus.Services
 {
     public interface ITflService
     {
-        Task<Result<TflApiPresentationEntitiesRoadCorridor>> GetRoad(string roadName);
+        Task<Result<TflApiPresentationEntitiesRoadCorridor>> GetRoadAsync(string roadName);
     }
 }

@@ -22,7 +22,7 @@ namespace RoadStatus.Services
             _apiConfig = apiConfig;
         }
         
-        public async Task<Result<TflApiPresentationEntitiesRoadCorridor>> GetRoad(string roadName)
+        public async Task<Result<TflApiPresentationEntitiesRoadCorridor>> GetRoadAsync(string roadName)
         {
             var request = new HttpRequestMessage(HttpMethod.Get,
                     $"Road/{roadName}?app_id={_apiConfig.AppId}&app_key={_apiConfig.AppKey}");
