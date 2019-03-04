@@ -1,6 +1,6 @@
 # RoadStatus
 
-RoadStatus requires dotnet version 2.2
+RoadStatus requires dotnet core version 2.2
 
 To build RoadStatus for Windows:
 
