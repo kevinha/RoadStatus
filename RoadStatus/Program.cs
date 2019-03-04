@@ -1,7 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using CommandLine;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RoadStatus.DTO;
@@ -36,9 +38,10 @@ namespace RoadStatus
         }
 
         private static int RunAndReturnExitCode(Options opts)
-        {              
+        {
+            var config = BuildConfiguration();
             var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection, opts);            
+            ConfigureServices(serviceCollection, opts, config.GetSection("appConfig").Get<AppConfig>());            
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             try
@@ -56,6 +59,14 @@ namespace RoadStatus
                 WriteLine($"Unexpected error: {e}");
                 return 4;
             }
+        }
+
+        private static IConfiguration BuildConfiguration()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Path.Combine(AppContext.BaseDirectory))
+                .AddJsonFile("appsettings.json", optional: true);
+            return builder.Build();
         }
 
         private static void DisplayResult(string roadId, Result<TflApiPresentationEntitiesRoadCorridor> result)
@@ -79,10 +90,10 @@ namespace RoadStatus
             }
         }
 
-        private static void ConfigureServices(ServiceCollection serviceCollection, Options opts)
+        private static void ConfigureServices(ServiceCollection serviceCollection, Options opts, AppConfig appConfig)
         {
             // api url could be in config or on commandline if required for separate environments
-            serviceCollection.AddSingleton<IApiConfig>(new ApiConfig("https://api.tfl.gov.uk",opts.AppId, opts.AppKey));
+            serviceCollection.AddSingleton<IApiConfig>(new ApiConfig(appConfig.ApiUrl,opts.AppId, opts.AppKey));
             serviceCollection.AddHttpClient<ITflService,TflService>()
                 .ConfigurePrimaryHttpMessageHandler(handler =>
                 new HttpClientHandler
