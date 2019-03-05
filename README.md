@@ -30,3 +30,9 @@ To run the tests
 ## Notes
 
 The TflApiPresentationEntitiesRoadCorridor DTO class was generated from the Swagger document.
+
+The tests were aimed at the api as the display is easily verified by inspection.
+
+Validation of input road id was determined by the results returned by the api rather than by the format of the string, but this could be easily added if required.
+
+
